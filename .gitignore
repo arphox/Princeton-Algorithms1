@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
+*.ncrunchproject
+*.ncrunchsolution
 *.rsuser
 *.suo
 *.user
