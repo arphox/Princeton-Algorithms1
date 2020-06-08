@@ -7,7 +7,7 @@ namespace Test.Week01
     public abstract class UnionFindImplementationTester<TImpl>
         where TImpl : IUnionFindImplementation, new()
     {
-        private readonly IUnionFindImplementation subject = new TImpl();
+        protected readonly IUnionFindImplementation subject = new TImpl();
 
         [Fact]
         public void Test1()
@@ -97,39 +97,39 @@ namespace Test.Week01
             Union(Size / 6, Size / 2);
         }
 
-        private void Init(int n) => subject.Initialize(n);
+        protected void Init(int n) => subject.Initialize(n);
 
-        private void Union(int p, int q)
+        protected void Union(int p, int q)
         {
             subject.Union(p, q);
             AssertConnected(p, q);
         }
 
-        private void AssertConnected(int p, int q)
+        protected void UnionAll(params int[] values)
+        {
+            for (int i = 0; i < values.Length - 1; i++)
+                Union(values[i], values[i + 1]);
+        }
+
+        protected void AssertConnected(int p, int q)
         {
             subject.Connected(p, q).Should().BeTrue();
             subject.Connected(q, p).Should().BeTrue();
         }
 
-        private void AssertNotConnected(int p, int q)
+        protected void AssertNotConnected(int p, int q)
         {
             subject.Connected(p, q).Should().BeFalse();
             subject.Connected(q, p).Should().BeFalse();
         }
 
-        private void AssertNotConnectedToAny(int who, params int[] others)
+        protected void AssertNotConnectedToAny(int who, params int[] others)
         {
             foreach (int x in others)
                 AssertNotConnected(who, x);
         }
 
-        private void AssertConnectedToAll(int who, params int[] others)
-        {
-            foreach (int x in others)
-                AssertConnected(who, x);
-        }
-
-        private void AssertAllConnectedToAll(params int[] ids)
+        protected void AssertAllConnectedToAll(params int[] ids)
         {
             foreach (int x1 in ids)
                 foreach (int x2 in ids)
