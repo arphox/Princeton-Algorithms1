@@ -41,14 +41,24 @@ namespace Test.Week01
             Init(6);
 
             Union(0, 1);
+            AssertNotConnectedToAny(0, 2, 3, 4, 5);
+            AssertNotConnectedToAny(1, 2, 3, 4, 5);
+
             Union(2, 3);
+            AssertNotConnectedToAny(2, 0, 1, 4, 5);
+            AssertNotConnectedToAny(3, 0, 1, 4, 5);
+
             Union(4, 5);
+            AssertNotConnectedToAny(4, 0, 1, 2, 3);
+            AssertNotConnectedToAny(5, 0, 1, 2, 3);
 
             Union(0, 4);
             AssertConnectedToAll(1, 0, 4, 5);
             AssertConnectedToAll(0, 1, 4, 5);
             AssertConnectedToAll(4, 1, 0, 5);
             AssertConnectedToAll(5, 1, 0, 4);
+            AssertNotConnectedToAny(2, 0, 1, 4, 5);
+            AssertNotConnectedToAny(3, 0, 1, 4, 5);
 
             Union(0, 5);
             AssertConnectedToAll(1, 0, 4, 5);
