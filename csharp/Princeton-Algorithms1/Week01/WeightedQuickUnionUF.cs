@@ -2,9 +2,10 @@
 
 namespace Princeton_Algorithms1.Week01
 {
-    public sealed class QuickUnionUF : IUnionFindImplementation
+    public sealed class WeightedQuickUnionUF : IUnionFindImplementation
     {
         private int[] id;
+        private int[] sizes;
 
         public void Initialize(int n)
         {
@@ -14,6 +15,10 @@ namespace Princeton_Algorithms1.Week01
             id = new int[n];
             for (int i = 0; i < id.Length; i++)
                 id[i] = i;
+
+            sizes = new int[n];
+            for (int i = 0; i < sizes.Length; i++)
+                sizes[i] = 1;
         }
 
         public bool Connected(int p, int q)
@@ -30,9 +35,21 @@ namespace Princeton_Algorithms1.Week01
 
         public void Union(int p, int q)
         {
-            int pRoot = RootOf(p);
-            int qRoot = RootOf(q);
-            id[pRoot] = qRoot;
+            int rootP = RootOf(p);
+            int rootQ = RootOf(q);
+            if (rootP == rootQ)
+                return;
+
+            if (sizes[rootP] < sizes[rootQ])
+            {
+                id[rootP] = rootQ;
+                sizes[rootQ] += sizes[rootP];
+            }
+            else
+            {
+                id[rootQ] = rootP;
+                sizes[rootP] += sizes[rootQ];
+            }
         }
     }
 }

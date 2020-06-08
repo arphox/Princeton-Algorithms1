@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Princeton_Algorithms1.Week01;
 using Xunit;
 
@@ -29,10 +28,7 @@ namespace Test.Week01
             Union(8, 3);
             Union(4, 9);
             Union(3, 4);
-            AssertConnectedToAll(8, 3, 4, 9);
-            AssertConnectedToAll(3, 8, 4, 9);
-            AssertConnectedToAll(4, 8, 3, 9);
-            AssertConnectedToAll(9, 8, 3, 4);
+            AssertAllConnectedToAll(8, 3, 4, 9);
         }
 
         [Fact]
@@ -53,22 +49,43 @@ namespace Test.Week01
             AssertNotConnectedToAny(5, 0, 1, 2, 3);
 
             Union(0, 4);
-            AssertConnectedToAll(1, 0, 4, 5);
-            AssertConnectedToAll(0, 1, 4, 5);
-            AssertConnectedToAll(4, 1, 0, 5);
-            AssertConnectedToAll(5, 1, 0, 4);
+            AssertAllConnectedToAll(1, 0, 4, 5);
             AssertNotConnectedToAny(2, 0, 1, 4, 5);
             AssertNotConnectedToAny(3, 0, 1, 4, 5);
 
             Union(0, 5);
-            AssertConnectedToAll(1, 0, 4, 5);
-            AssertConnectedToAll(0, 1, 4, 5);
-            AssertConnectedToAll(4, 1, 0, 5);
-            AssertConnectedToAll(5, 1, 0, 4);
+            AssertAllConnectedToAll(1, 0, 4, 5);
 
             Union(4, 2);
-            for (int i = 0; i <= 5; i++)
-                AssertConnectedToAll(i, Enumerable.Range(0, i).ToArray());
+            AssertAllConnectedToAll(0, 1, 2, 3, 4, 5);
+        }
+
+        [Fact]
+        public void Test3()
+        {
+            Init(10);
+            Union(4, 3);
+            Union(3, 8);
+            AssertConnected(3, 8);
+
+            Union(6, 5);
+
+            Union(9, 4);
+            AssertAllConnectedToAll(3, 4, 8, 9);
+
+            Union(2, 1);
+
+            Union(5, 0);
+            AssertConnected(0, 6);
+
+            Union(7, 2);
+            AssertConnected(7, 1);
+
+            Union(6, 1);
+            AssertAllConnectedToAll(0, 1, 2, 5, 6, 7);
+
+            Union(7, 3);
+            AssertAllConnectedToAll(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
         }
 
         [Fact]
@@ -110,6 +127,13 @@ namespace Test.Week01
         {
             foreach (int x in others)
                 AssertConnected(who, x);
+        }
+
+        private void AssertAllConnectedToAll(params int[] ids)
+        {
+            foreach (int x1 in ids)
+                foreach (int x2 in ids)
+                    AssertConnected(x1, x2);
         }
     }
 }

@@ -4,4 +4,5 @@ namespace Test.Week01
 {
     public class QuickFindUFTests : UnionFindImplementationTester<QuickFindUF> { }
     public class QuickUnionUFTests : UnionFindImplementationTester<QuickUnionUF> { }
+    public class WeightedQuickUnionUFTests : UnionFindImplementationTester<WeightedQuickUnionUF> { }
 }
