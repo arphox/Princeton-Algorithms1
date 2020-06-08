@@ -54,5 +54,10 @@ namespace Princeton_Algorithms1.Week01
                 sizes[rootP] += sizes[rootQ];
             }
         }
+
+        public int SizeOf(int x)
+        {
+            return sizes[x];
+        }
     }
 }
