@@ -5,9 +5,9 @@ using Xunit;
 namespace Test.Week01
 {
     public abstract class UnionFindImplementationTester<TImpl>
-        where TImpl : IUnionFindImplementation, new()
+        where TImpl : IUnionFindImplementationLegacy, new()
     {
-        protected readonly IUnionFindImplementation subject = new TImpl();
+        protected readonly IUnionFindImplementationLegacy subject = new TImpl();
 
         [Fact]
         public void Test1()

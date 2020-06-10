@@ -28,7 +28,7 @@ namespace Princeton_Algorithms1.Week01.InterviewQuestions
 
         public int Run()
         {
-            WeightedPathCompressingQuickUnionUF algo = new WeightedPathCompressingQuickUnionUF();
+            WeightedPathCompressingQuickUnionUFLegacy algo = new WeightedPathCompressingQuickUnionUFLegacy();
             algo.Initialize(_memberCount);
 
             using var enumerator = _relations.GetEnumerator();

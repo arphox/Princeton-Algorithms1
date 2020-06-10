@@ -2,7 +2,7 @@
 
 namespace Princeton_Algorithms1.Week01
 {
-    public sealed class WeightedQuickUnionUF : IUnionFindImplementation
+    public sealed class WeightedQuickUnionUF : IUnionFindImplementationLegacy
     {
         private int[] id;
         private int[] sizes;

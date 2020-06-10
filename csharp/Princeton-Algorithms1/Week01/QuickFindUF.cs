@@ -2,7 +2,7 @@
 
 namespace Princeton_Algorithms1.Week01
 {
-    public class QuickFindUF : IUnionFindImplementation
+    public class QuickFindUF : IUnionFindImplementationLegacy
     {
         private int[] id;
 

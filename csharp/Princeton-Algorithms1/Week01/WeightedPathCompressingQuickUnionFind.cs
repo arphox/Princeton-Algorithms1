@@ -2,10 +2,11 @@
 
 namespace Princeton_Algorithms1.Week01
 {
-    public sealed class WeightedPathCompressingQuickUnionUF : IUnionFindImplementation
+    public sealed class WeightedPathCompressingQuickUnionFind : IUnionFindImplementationLegacy, IUnionFindImplementation
     {
         private int[] id;
         private int[] sizes;
+        private int[] maxElement;
 
         public void Initialize(int n)
         {
@@ -19,21 +20,8 @@ namespace Princeton_Algorithms1.Week01
             sizes = new int[n];
             for (int i = 0; i < sizes.Length; i++)
                 sizes[i] = 1;
-        }
 
-        public bool Connected(int p, int q)
-        {
-            return RootOf(p) == RootOf(q);
-        }
-
-        private int RootOf(int x)
-        {
-            while (x != id[x])
-            {
-                id[x] = id[id[x]];
-                x = id[x];
-            }
-            return x;
+            maxElement = new int[n];
         }
 
         public void Union(int p, int q)
@@ -53,11 +41,30 @@ namespace Princeton_Algorithms1.Week01
                 id[rootQ] = rootP;
                 sizes[rootP] += sizes[rootQ];
             }
+
+            int higher = Math.Max(p, q);
+            if (higher > maxElement[rootP])
+                maxElement[rootP] = higher;
         }
 
-        public int SizeOf(int x)
+        public int Find(int x)
         {
-            return sizes[x];
+            return maxElement[RootOf(x)];
+        }
+
+        public bool Connected(int p, int q)
+        {
+            return RootOf(p) == RootOf(q);
+        }
+
+        private int RootOf(int x)
+        {
+            while (x != id[x])
+            {
+                id[x] = id[id[x]];
+                x = id[x];
+            }
+            return x;
         }
     }
 }

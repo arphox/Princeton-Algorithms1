@@ -1,21 +1,11 @@
 ﻿using System;
 
-namespace Princeton_Algorithms1.Week01.InterviewQuestions
+namespace Princeton_Algorithms1.Week01
 {
-    /// <summary>
-    ///     Union-find with specific canonical element.
-    ///     Add a method find() to the union-find data type 
-    ///     so that find(i) returns the largest element in the connected component containing i.
-    ///     The operations, union(), connected(), and find() should all take logarithmic time or better.
-    ///     
-    ///     For example, if one of the connected components is 1,2,6,9, 
-    ///     then the find() method should return 9 for each of the four elements in the connected components.
-    /// </summary>
-    public sealed class _02_UnionFindWithSpecificCanonicalElement : IUnionFindImplementationLegacy
+    public sealed class WeightedPathCompressingQuickUnionUFLegacy : IUnionFindImplementationLegacy
     {
         private int[] id;
         private int[] sizes;
-        private int[] maxElement;
 
         public void Initialize(int n)
         {
@@ -29,13 +19,6 @@ namespace Princeton_Algorithms1.Week01.InterviewQuestions
             sizes = new int[n];
             for (int i = 0; i < sizes.Length; i++)
                 sizes[i] = 1;
-
-            maxElement = new int[n];
-        }
-
-        public int Find(int x)
-        {
-            return maxElement[RootOf(x)];
         }
 
         public bool Connected(int p, int q)
@@ -70,10 +53,11 @@ namespace Princeton_Algorithms1.Week01.InterviewQuestions
                 id[rootQ] = rootP;
                 sizes[rootP] += sizes[rootQ];
             }
+        }
 
-            int higher = Math.Max(p, q);
-            if (higher > maxElement[rootP])
-                maxElement[rootP] = higher;
+        public int SizeOf(int x)
+        {
+            return sizes[x];
         }
     }
 }

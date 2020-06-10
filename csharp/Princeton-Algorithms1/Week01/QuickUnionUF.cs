@@ -2,7 +2,7 @@
 
 namespace Princeton_Algorithms1.Week01
 {
-    public sealed class QuickUnionUF : IUnionFindImplementation
+    public sealed class QuickUnionUF : IUnionFindImplementationLegacy
     {
         private int[] id;
 
