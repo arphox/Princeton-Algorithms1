@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace Princeton_Algorithms1.Week01.InterviewQuestions
 {
+    /// <summary>
+    ///     3-SUM in quadratic time.
+    ///     Design an algorithm for the 3-SUM problem that takes time proportional to n^2 in the worst case.
+    ///     You may assume that you can sort the n integers in time proportional to n^2 or better.
+    /// </summary>
     public sealed class _04_3SUM
     {
         public static List<int[]> CalculateSeparated(int[] input)
