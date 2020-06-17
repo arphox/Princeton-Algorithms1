@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Princeton_Algorithms1.Week01.Percolation;
+﻿using Princeton_Algorithms1.Week01.InterviewQuestions;
 
 namespace Princeton_Algorithms1
 {
@@ -8,11 +6,7 @@ namespace Princeton_Algorithms1
     {
         private static void Main()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-            PercolationStats ps = new PercolationStats(770, 100); // with size 770, 100 trials take ~10s (in DEBUG)
-            Console.WriteLine(ps.Mean());
-            Console.WriteLine(sw.Elapsed);
-            Console.ReadLine();
+            _05_SearchInBitonic.SearchAndReturnIndex_Standard(new int[] { -3, -2, 0, 2, 4, 6, 8, 10, 9, 7, 5 }, 1);
         }
     }
 }
