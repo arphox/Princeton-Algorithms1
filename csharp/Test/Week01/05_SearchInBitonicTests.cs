@@ -11,12 +11,24 @@ namespace Test.Week01
     {
         [Theory]
         [MemberData(nameof(TestData))]
-        public void SearchTest(int[] array)
+        public void SearchAndReturnIndex_StandardTest(int[] array)
         {
             for (int i = 0; i < array.Length; i++)
             {
                 int searchedValue = array[i];
                 int result = _05_SearchInBitonic.SearchAndReturnIndex_Standard(array, searchedValue);
+                result.Should().Be(i);
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void SearchAndReturnIndex_ImprovedTest(int[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                int searchedValue = array[i];
+                int result = _05_SearchInBitonic.SearchAndReturnIndex_Improved(array, searchedValue);
                 result.Should().Be(i);
             }
         }

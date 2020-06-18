@@ -57,6 +57,46 @@ namespace Princeton_Algorithms1.Week01.InterviewQuestions
             return low;
         }
 
+        public static int SearchAndReturnIndex_Improved(int[] array, int searchedValue)
+        {
+            if (array.Length < 3)
+                throw new ArgumentOutOfRangeException(nameof(array.Length), array.Length, "Array's length cannot be less than 3");
+
+            return BitonicSearchImproved(array, 0, array.Length - 1, searchedValue);
+        }
+
+        private static int BitonicSearchImproved(int[] array, int fromIndex, int toIndex, int searchedValue)
+        {
+            if (fromIndex >= toIndex)
+                return array[fromIndex] == searchedValue ? fromIndex : -1;
+
+            int midIndex = fromIndex + (toIndex - fromIndex) / 2;
+            int midValue = array[midIndex];
+            if (midValue == searchedValue)
+                return midIndex;
+
+            bool middleElementSmallerThanValue = false;
+            if (midValue < searchedValue)
+                middleElementSmallerThanValue = true;
+
+            if (middleElementSmallerThanValue)
+            {
+                bool maxIsOnLeftSide = midIndex > 0 && array[midIndex - 1] > midValue;
+                if (maxIsOnLeftSide)
+                    return BitonicSearchImproved(array, fromIndex, midIndex - 1, searchedValue);
+                else
+                    return BitonicSearchImproved(array, midIndex + 1, toIndex, searchedValue);
+            }
+            else
+            {
+                int leftResult = BinarySearchInIncreasing(array, fromIndex, midIndex - 1, searchedValue);
+                if (leftResult >= 0)
+                    return leftResult;
+
+                return BinarySearchInDecreasing(array, midIndex + 1, toIndex, searchedValue);
+            }
+        }
+
         public static int BinarySearchInIncreasing(int[] arr, int fromIndex, int toIndex, int value)
         {
             int low = fromIndex;
