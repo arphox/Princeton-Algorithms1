@@ -1,0 +1,17 @@
+#####################
+# Created by Arphox #
+#####################
+
+# out folder
+output/
+out/
+
+# Gradle
+.gradle/
+build/
+
+# IDEA
+.idea/
+*.iml
+
+# Thank you PiggyPiglet!
