@@ -112,11 +112,6 @@ namespace Princeton_Algorithms1.Week01.Percolation
         }
 
         /// <summary>
-        ///     Returns whether the given site is full (not open).
-        /// </summary>
-        public bool IsFull(int row, int col) => !IsOpen(row, col);
-
-        /// <summary>
         ///     Returns the number of open sites
         /// </summary>
         public int NumberOfOpenSites() => _openSiteCounter;

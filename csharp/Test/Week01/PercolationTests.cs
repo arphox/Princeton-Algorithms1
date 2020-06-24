@@ -44,27 +44,6 @@ namespace Test.Week01
                         sut.IsOpen(i, j).Should().BeFalse();
             }
 
-            [Fact]
-            public void Open_IsOpen_IsFull_random_test()
-            {
-                const int Size = 3;
-                Percolation sut = CreateSut(Size);
-                OpenAndTest(0, 2);
-                OpenAndTest(2, 1);
-                OpenAndTest(1, 1);
-                OpenAndTest(1, 2);
-                OpenAndTest(2, 0);
-
-                void OpenAndTest(int row, int col)
-                {
-                    sut.IsFull(row, col).Should().BeTrue();
-                    sut.IsOpen(row, col).Should().BeFalse();
-                    sut.Open(row, col);
-                    sut.IsFull(row, col).Should().BeFalse();
-                    sut.IsOpen(row, col).Should().BeTrue();
-                }
-            }
-
             private Percolation CreateSut(int size)
             {
                 return new Percolation(size, new WeightedPathCompressingQuickUnionFind());
