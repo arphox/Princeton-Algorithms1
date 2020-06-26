@@ -2,95 +2,99 @@
 using System.Collections;
 using System.Linq;
 using FluentAssertions;
-using Princeton_Algorithms1.Week02.Stack;
+using Princeton_Algorithms1.Week02.Queue;
 using Xunit;
 
-namespace Test.Week02.Stack
+namespace Test.Week02.Queue
 {
     public abstract class QueueImplementationTester<TImpl> : IDisposable
-        where TImpl : IStack<int>
+        where TImpl : IQueue<int>
     {
-        protected abstract IStack<int> CreateSubject();
-        private IStack<int> subject;
+        protected abstract IQueue<int> CreateSubject();
+        private IQueue<int> subject;
 
         public QueueImplementationTester()
         {
             subject = CreateSubject();
             PeekAndExpect<InvalidOperationException>();
-            PopAndExpect<InvalidOperationException>();
+            DequeueAndExpect<InvalidOperationException>();
         }
 
         [Fact]
-        public void Push1()
+        public void Enqueue1()
         {
-            Push(10);
+            EnqueueDequeueCheck(10);
         }
 
         [Fact]
-        public void Push2()
+        public void Enqueue2()
         {
-            Push(5, 3);
+            Enqueue(5, 3);
+            DequeueAndExpect(5);
+            PeekAndExpect(3);
         }
 
         [Fact]
-        public void Push5()
+        public void Enqueue5()
         {
-            Push(68, -3, 7, 7, 8);
+            Enqueue(68, -3, 7, 7, 8);
+            DequeueAndExpect(68);
+            DequeueAndExpect(-3);
+            DequeueAndExpect(7);
+            DequeueAndExpect(7);
+            PeekAndExpect(8);
         }
 
         [Fact]
-        public void Push2Pop2()
+        public void Enqueue2Dequeue2()
         {
-            Push(5, 3);
-            PopAndExpect(3, 5);
+            EnqueueDequeueCheck(5, 3);
         }
 
         [Fact]
-        public void Push5Pop5()
+        public void Enqueue5Dequeue5()
         {
-            Push(68, -3, 7, 7, 8);
-            PopAndExpect(8, 7, 7, -3, 68);
+            EnqueueDequeueCheck(68, -3, 7, 7, 8);
         }
 
         [Fact]
-        public void PushPop5mix()
+        public void EnqueueDequeue5mix()
         {
-            Push(68, -3, 7);
-            PopAndExpect(7, -3);
-            Push(7, 8);
-            PopAndExpect(8, 7, 68);
+            Enqueue(68, -3, 7);
+            DequeueAndExpect(68, -3);
+            Enqueue(7, 8);
+            DequeueAndExpect(7, 7, 8);
         }
 
         [Fact]
-        public void PushPop100()
+        public void EnqueueDequeue100()
         {
             int[] numbers = Enumerable.Range(0, 100).ToArray();
 
             foreach (int item in numbers)
-                Push(item);
+                Enqueue(item);
 
-            for (int i = numbers.Length - 1; i >= 0; i--)
+            for (int i = 0; i < numbers.Length; i++)
             {
                 subject.Peek().Should().Be(numbers[i]);
-                subject.Pop().Should().Be(numbers[i]);
+                subject.Dequeue().Should().Be(numbers[i]);
             }
         }
 
         [Fact]
         public void SmokeTest()
         {
-            Push(10, 20, 30);
-            PopAndExpect(30, 20, 10);
-            Push(-4, -4);
-            PopAndExpect(-4);
-            PeekAndExpect(-4);  // remained: -4
+            EnqueueDequeueCheck(10, 20, 30);
+            Enqueue(-4, -4, 5);
+            DequeueAndExpect(-4);
+            PeekAndExpect(-4);  // remained: -4, 5
 
-            Push(101, 102, 103);
-            PopAndExpect(103, 102); // remained: -4, 101
-            PeekAndExpect(101);
+            Enqueue(101, 102, 103);
+            DequeueAndExpect(-4, 5, 101); // remained: 102, 103
+            PeekAndExpect(102);
 
-            Push(201);
-            PopAndExpect(201, 101, -4);
+            Enqueue(201);
+            DequeueAndExpect(102, 103, 201);
         }
 
         [Fact]
@@ -99,15 +103,15 @@ namespace Test.Week02.Stack
             int[] numbers = Enumerable.Range(0, 100).ToArray();
 
             foreach (int item in numbers)
-                subject.Push(item);
+                subject.Enqueue(item);
 
-            int i = numbers.Length - 1;
+            int i = 0;
             foreach (int item in subject)
             {
                 item.Should().Be(numbers[i]);
-                i--;
+                i++;
             }
-            i.Should().Be(-1);
+            i.Should().Be(numbers.Length);
         }
 
         [Fact]
@@ -116,63 +120,60 @@ namespace Test.Week02.Stack
             int[] numbers = Enumerable.Range(0, 100).ToArray();
 
             foreach (int item in numbers)
-                subject.Push(item);
+                subject.Enqueue(item);
 
-            int i = numbers.Length - 1;
+            int i = 0;
             IEnumerable subjectNonGeneric = subject;
             foreach (int item in subjectNonGeneric)
             {
                 item.Should().Be(numbers[i]);
-                i--;
+                i++;
             }
-            i.Should().Be(-1);
+            i.Should().Be(numbers.Length);
         }
 
         public void Dispose()
         {
             while (subject.Count > 0)
-                subject.Pop();
+                subject.Dequeue();
 
             PeekAndExpect<InvalidOperationException>();
-            PopAndExpect<InvalidOperationException>();
+            DequeueAndExpect<InvalidOperationException>();
         }
 
         #region [ Helpers ]
 
-        private void Push(params int[] items)
+        private void Enqueue(params int[] items)
         {
             foreach (int item in items)
             {
                 int count = subject.Count;
-                subject.Push(item);
+                subject.Enqueue(item);
                 subject.Count.Should().Be(count + 1);
-                subject.Peek().Should().Be(item);
-                subject.Peek().Should().Be(item);
-
-                int item2 = subject.Pop();
-                item2.Should().Be(item);
-                subject.Count.Should().Be(count);
-
-                subject.Push(item);
-                subject.Count.Should().Be(count + 1);
-                subject.Peek().Should().Be(item);
-                subject.Peek().Should().Be(item);
             }
         }
 
-        private void PopAndExpect(params int[] expectedItems)
+        private void EnqueueDequeueCheck(params int[] items)
+        {
+            Enqueue(items);
+            for (int i = 0; i < items.Length; i++)
+                DequeueAndExpect(items[i]);
+        }
+
+        private void DequeueAndExpect(params int[] expectedItems)
         {
             foreach (int expectedItem in expectedItems)
             {
-                int actualItem = subject.Pop();
+                PeekAndExpect(expectedItem);
+                int actualItem = subject.Dequeue();
                 actualItem.Should().Be(expectedItem);
             }
         }
 
-        private void PopAndExpect<TException>()
+        private void DequeueAndExpect<TException>()
             where TException : Exception
         {
-            Action action = () => subject.Pop();
+            Action action = () => subject.Dequeue();
             action.Should().Throw<TException>();
         }
 

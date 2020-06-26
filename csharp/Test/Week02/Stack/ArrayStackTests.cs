@@ -7,7 +7,7 @@ namespace Test.Week02.Stack
 {
     public sealed partial class StackImplementationTests
     {
-        public class ArrayStackTests : StackImplementationTester<ArrayStack<int>>
+        public class ArrayStackTests : QueueImplementationTester<ArrayStack<int>>
         {
             protected override IStack<int> CreateSubject() => new ArrayStack<int>();
 

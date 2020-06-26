@@ -4,7 +4,7 @@ namespace Test.Week02.Stack
 {
     public sealed partial class StackImplementationTests
     {
-        public class LinkedListStackTests : StackImplementationTester<LinkedListStack<int>>
+        public class LinkedListStackTests : QueueImplementationTester<LinkedListStack<int>>
         {
             protected override IStack<int> CreateSubject() => new LinkedListStack<int>();
         }
