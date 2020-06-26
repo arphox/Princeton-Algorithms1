@@ -8,12 +8,14 @@ using Xunit;
 namespace Test.Week02.Stack
 {
     public abstract class StackImplementationTester<TImpl> : IDisposable
-        where TImpl : IStack<int>, new()
+        where TImpl : IStack<int>
     {
-        protected readonly IStack<int> subject = new TImpl();
+        protected abstract IStack<int> CreateSubject();
+        private IStack<int> subject;
 
         public StackImplementationTester()
         {
+            subject = CreateSubject();
             PeekAndExpect<InvalidOperationException>();
             PopAndExpect<InvalidOperationException>();
         }
