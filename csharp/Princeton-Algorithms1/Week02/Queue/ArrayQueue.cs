@@ -7,17 +7,15 @@ namespace Princeton_Algorithms1.Week02.Queue
     public sealed class ArrayQueue<T> : IQueue<T>
     {
         public const int DefaultCapacity = 4;
-        private readonly bool shrinkOnDequeue;
         private int head;
         private int tail;
         private T[] items;
 
-        public ArrayQueue(int initialCapacity = DefaultCapacity, bool shrinkOnDequeue = false) // TODO: shrink
+        public ArrayQueue(int initialCapacity = DefaultCapacity)
         {
             if (initialCapacity < 0)
                 throw new ArgumentOutOfRangeException(nameof(initialCapacity), initialCapacity, "Value cannot be negative.");
             items = new T[initialCapacity];
-            this.shrinkOnDequeue = shrinkOnDequeue;
         }
 
         public int Count { get; private set; } = 0;
@@ -39,9 +37,6 @@ namespace Princeton_Algorithms1.Week02.Queue
         {
             if (Count == 0)
                 throw EmptyQueue();
-
-            if (shrinkOnDequeue && Count < items.Length / 4)
-                Resize(items.Length / 2);
 
             var item = items[head];
             items[head] = default; // release possible unused references
