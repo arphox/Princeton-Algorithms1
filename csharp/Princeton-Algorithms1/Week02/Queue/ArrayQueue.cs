@@ -27,7 +27,9 @@ namespace Princeton_Algorithms1.Week02.Queue
             if (Count >= items.Length)
                 Resize(items.Length * 2);
 
-            tail %= items.Length;
+            if (tail >= items.Length)
+                tail = 0;
+
             items[tail] = item;
             tail++;
             Count++;
@@ -44,7 +46,8 @@ namespace Princeton_Algorithms1.Week02.Queue
             var item = items[head];
             items[head] = default; // release possible unused references
             head++;
-            head %= items.Length;
+            if (head >= items.Length)
+                head = 0;
             Count--;
             return item;
         }
